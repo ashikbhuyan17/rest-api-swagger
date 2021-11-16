@@ -1,0 +1,342 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Utopain-Backend Spring Boot REST API"
+  termsOfService: "http://api_url/terms/"
+  contact: {
+      name: 'utopian Team',
+      email: 'utopian@gmail.com',
+      url: 'https://www.wolox.com.ar/',
+    }
+  license: {
+    name: "Apache License Version 2.0",
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html",  
+  }
+  servers: [
+    {
+      url: 'http://localhost:3000/',
+      description: 'Local server',
+    },
+    {
+      url: 'https://api_url_testing',
+      description: 'Testing server',
+    },
+    {
+      url: 'https://api_url_production',
+      description: 'Production server',
+    }
+  ]
+  
+  
+host: "localhost:3000"
+basePath: "/"  
+tags:
+- name: "ad-controller"
+  description: "Ad Controller"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+- name: "store"
+  description: "Access to Petstore orders"
+- name: "user"
+  description: "Operations about user"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"  
+
+# schemes: [http,https]
+schemes:
+- "http"
+- "https"
+consumes:
+  - "application/json"
+  - "application/xml"
+produces:
+  - "application/json"
+  - "application/xml"
+# paths :
+#   get:
+#     summary: Returns a string
+paths:
+  # return a string
+  /string:
+    get:
+      tags:
+      - "ad-controller"
+      summary: "Returns a string"
+      description: "it is just returning a string"
+      operationId: "addPet"
+      responses:
+        "200":
+          description: "Success Operations"
+          schema:
+            type: string
+            example: {
+              "data": {
+                 "data": [
+                   {
+                     "adminMassage": "string",
+                     "bankDepositImage": "string",
+                     "createdBy": "string",
+                     "createdOn": 0,
+                     "depositAmount": 0,
+                     "id": 0,
+                     "isCompleted": true,
+                     "paidBy": "string",
+                     "sendFrom": "string",
+                     "sendTo": "string",
+                     "status": "Approved",
+                     "transactionId": "string",
+                     "updatedBy": "string",
+                     "updatedOn": 0,
+                     "userMassage": "string",
+        
+                   }
+                 ],
+                 "itemCount": 0,
+                 "lastPage": true,
+                 "pageNo": 0,
+                 "pageSize": 0,
+                 "totalItems": 0,
+                 "totalPages": 0,
+                  
+             }
+             "message": "string",
+             "statusCode": 0,
+             
+             }
+
+        "400":
+          description: "Missing parameters"
+          example: {
+              message: 'companyId is missing',
+              internal_code: 'missing_parameters',
+
+            }
+
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "not found"
+        "405":
+          description: "Validation exception"
+        '500': {
+          description: 'Internal server error',
+        }
+
+
+
+
+  # return a object
+  /user:
+    get:
+      tags:
+      - "ad-controller"
+      summary: "Returns a object"
+      description: "it is just returning a object"
+      parameters: [
+
+        {
+          name: "Authorization",
+          in: "header",
+          required: true,
+          type: "string",
+        },
+
+      ]
+      responses:
+        "200":
+          description: "Success Operations"
+          schema:
+            type: object
+            properties: 
+              id:
+                type: integer
+              name:
+                type: string
+            
+
+        "400":
+          description: "Missing parameters"
+          example: {
+              message: 'companyId is missing',
+              internal_code: 'missing_parameters',
+
+            }
+
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "not found"
+        "405":
+          description: "Validation exception"
+        '500': {
+          description: 'Internal server error',
+        }   
+        
+        
+
+  # return a array of users
+  /users:
+    get:
+      tags:
+      - "ad-controller"
+      summary: "Returns a array of object"
+      description: "it is just returning a array"
+      responses:
+        "200":
+          description: "Success Operations"
+          schema:
+            type: array
+            items: 
+              type: object
+              properties: 
+                id:
+                  type: integer
+                name:
+                  type: string
+            
+
+        "400":
+          description: "Missing parameters"
+          example: {
+              message: 'companyId is missing',
+              internal_code: 'missing_parameters',
+
+            }
+
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "not found"
+        "405":
+          description: "Validation exception"
+        '500': {
+          description: 'Internal server error',
+        }     
+        
+        
+
+
+  # return a dynamic query data
+  /users/{userId}:
+    get:
+      tags:
+      - "ad-controller"
+      summary: "getAdById"
+      description: "it is just returning a array"
+      consumes: [
+        "multipart/form-data",
+      ]
+      parameters: [
+        {
+          name: "Authorization",
+          in: "header",
+          description: "Authorization",
+          # required: true,
+          type: "string",
+          },
+        {
+          name: "userId",
+          in: "path",
+          description: "userId",
+          required: true,
+          type: "string",
+        },
+        {
+          name: "img",
+          in: "formData",
+          description: "img",
+          # required: true,
+          type: "file",
+        }
+      ]
+      responses:
+        "200":
+          description: "Success Operations"
+          schema:
+            type: array
+            items: 
+              type: object
+              properties: 
+                id:
+                  type: integer
+                name:
+                  type: string
+                role :
+                  type: string  
+            
+
+        "400":
+          description: "Missing parameters"
+          example: {
+              message: 'companyId is missing',
+              internal_code: 'missing_parameters',
+
+            }
+
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "not found"
+        "405":
+          description: "Validation exception"
+        '500': {
+          description: 'Internal server error',
+        }         
+          
+
+
+    
+     
+    
+
+ # post by json body
+  /create:
+    post:
+      tags:
+      - "ad-controller"
+      summary: "Returns a array of object"
+      description: "it is just returning a array"
+      responses:
+        "200":
+          description: "Success Operations"
+          schema:
+            type: array
+            items: 
+              type: object
+              properties: 
+                id:
+                  type: integer
+                name:
+                  type: string
+            
+
+        "400":
+          description: "Missing parameters"
+          example: {
+              message: 'companyId is missing',
+              internal_code: 'missing_parameters',
+
+            }
+
+        "401":
+          description: "Unauthorized"
+        "403":
+          description: "Forbidden"
+        "404":
+          description: "not found"
+        "405":
+          description: "Validation exception"
+        '500': {
+          description: 'Internal server error',
+        }
