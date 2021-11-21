@@ -29,7 +29,7 @@ info:
   ]
   
   
-host: "localhost:3000"
+host: "localhost:9000"
 basePath: "/"  
 tags:
 - name: "ad-controller"
@@ -102,8 +102,6 @@ paths:
                  "totalPages": 0,
                   
              }
-             "message": "string",
-             "statusCode": 0,
              
              }
 
@@ -226,6 +224,7 @@ paths:
 
 
   # return a dynamic query data
+  # sending/reading data throught path
   /users/{userId}:
     get:
       tags:
@@ -242,7 +241,7 @@ paths:
           description: "Authorization",
           # required: true,
           type: "string",
-          },
+        },
         {
           name: "userId",
           in: "path",
@@ -250,13 +249,13 @@ paths:
           required: true,
           type: "string",
         },
-        {
-          name: "img",
-          in: "formData",
-          description: "img",
-          # required: true,
-          type: "file",
-        }
+        # {
+        #   name: "img",
+        #   in: "formData",
+        #   description: "img",
+        #   # required: true,
+        #   type: "file",
+        # }
       ]
       responses:
         "200":
@@ -305,21 +304,30 @@ paths:
     post:
       tags:
       - "ad-controller"
-      summary: "Returns a array of object"
-      description: "it is just returning a array"
+      summary: Posting data
+      produces:
+        - application/json
+      consumes:
+        - application/json  
+      description: post form data
+      parameters:
+      - in: body
+        name: user
+        description: "Pet object that needs to be added to the store"
+        # required: true 
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name: 
+              type: string
+            role:
+              type: string     
+
       responses:
         "200":
-          description: "Success Operations"
-          schema:
-            type: array
-            items: 
-              type: object
-              properties: 
-                id:
-                  type: integer
-                name:
-                  type: string
-            
+          description: Success Operations
 
         "400":
           description: "Missing parameters"
