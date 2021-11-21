@@ -300,6 +300,58 @@ paths:
     
 
  # post by json body
+  # /create:
+  #   post:
+  #     tags:
+  #     - "ad-controller"
+  #     summary: Posting data
+  #     produces:
+  #       - application/json
+  #     consumes:
+  #       - application/json  
+  #     description: post form data
+  #     parameters:
+  #     - in: body
+  #       name: user
+  #       description: "Pet object that needs to be added to the store"
+  #       # required: true 
+  #       schema:
+  #         type: object
+  #         properties:
+  #           id:
+  #             type: integer
+  #           name: 
+  #             type: string
+  #           role:
+  #             type: string     
+
+  #     responses:
+  #       "200":
+  #         description: Success Operations
+
+  #       "400":
+  #         description: "Missing parameters"
+  #         example: {
+  #             message: 'companyId is missing',
+  #             internal_code: 'missing_parameters',
+
+  #           }
+
+  #       "401":
+  #         description: "Unauthorized"
+  #       "403":
+  #         description: "Forbidden"
+  #       "404":
+  #         description: "not found"
+  #       "405":
+  #         description: "Validation exception"
+  #       '500': {
+  #         description: 'Internal server error',
+  #       }
+
+
+# schema with definition
+
   /create:
     post:
       tags:
@@ -312,39 +364,71 @@ paths:
       description: post form data
       parameters:
       - in: body
+      # name value ja icca tay likha jabe
         name: user
         description: "Pet object that needs to be added to the store"
         # required: true 
         schema:
-          type: object
-          properties:
-            id:
-              type: integer
-            name: 
-              type: string
-            role:
-              type: string     
+          $ref: "#/components/schemas/User"    
 
       responses:
         "200":
-          description: Success Operations
+          description: Success Operations 
 
-        "400":
-          description: "Missing parameters"
-          example: {
-              message: 'companyId is missing',
-              internal_code: 'missing_parameters',
 
-            }
+# query
+  /userQuery:
+    get:
+      tags:
+      - "ad-controller"
+      summary: Posting data
+      parameters:
+      - in : query
+        name: id
+        type: integer 
+        enum: [1,2,3,4] 
+      - in : query
+        name: age
+        type: integer 
+      responses:
+        "200":
+          description: Success Operations  
+          
+# file upload
+  /upload:
+    post:
+      tags:
+      - "ad-controller"
+      summary: Posting data
+      consumes:
+        - multipart/form-data
+      parameters:
+      - in : formData
+        name: file
+        type: file
+        required: true
+        description: File upload
+      responses:
+        "200":
+          description: Success Operations 
+        
 
-        "401":
-          description: "Unauthorized"
-        "403":
-          description: "Forbidden"
-        "404":
-          description: "not found"
-        "405":
-          description: "Validation exception"
-        '500': {
-          description: 'Internal server error',
-        }
+
+
+
+ # reference schema 
+components:
+    schemas:
+      User:
+        type: object
+        properties:
+          id:
+            type: integer
+            required: true
+          name: 
+            type: string
+          role:
+            type: string 
+
+
+  

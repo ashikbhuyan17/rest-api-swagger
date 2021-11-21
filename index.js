@@ -3,7 +3,12 @@ const app = express()
 const swaggerUI = require('swagger-ui-express')
 const YAML = require('yamljs')
 const swaggerJsDocs = YAML.load('./api.yaml')
+
 app.use(express.json())
+const fileUpload = require('express-fileUpload')
+app.use(fileUpload());
+
+// swagger documentation
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 const port = 9000
 
@@ -38,19 +43,48 @@ app.get('/users/:id', (req, res) => {
 
 })
 
+
 app.post("/create", (req, res) => {
 
-    if (req.body.name) {
+    if (req.body) {
         console.log(req.body)
-        user = [req.body, ...users]
-        // console.log(users)
-        res.send(user)
+        const id = users.find(user => user.id === parseInt(req.body.id))
+        console.log(id)
+        if (!id) {
+            user = [req.body, ...users]
+            res.send(user)
+        } else {
+            res.send({ message: "already exists" })
+        }
+
+
     }
     else {
         // console.log("error", error)
-        res.status(405).send("Validation exception")
+        res.status(405).send({ message: "Validation exception" })
     }
 
+
+
+})
+
+
+
+app.get('/userQuery', (req, res) => {
+    const obj = users.find(user => user.id === parseInt(req.query.id))
+    obj ? res.status(200).send(obj) : res.status(404).send({
+        message: 'not found'
+    })
+
+})
+
+
+app.post('/upload', (req, res) => {
+    const file = req.files.file
+    let path = __dirname + "/upload/" + "file" + Date.now() + ".jpg"
+    file.mv(path, (err) => {
+        res.send("ok")
+    })
 
 
 })
